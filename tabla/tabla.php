@@ -6,38 +6,7 @@
 </head>
 <body>
   <?php
-  function mostrarError($err)
-  {
-    echo "<h3>Error: $err</h3>";
-  }
-
-  function mostrarTabla($num)
-  {
-    // global $num;
-    ?>
-    <table border='1'>
-      <thead>
-        <th><?= $num ?></th>
-        <th>x</th>
-        <th>n</th>
-        <th>=</th>
-        <th>r</th>
-      </thead>
-      <tbody>
-        <?php for ($i=0; $i <= 10; $i++) { ?>
-          <tr>
-            <td><?= $num ?></td>
-            <td>x</td>
-            <td><?= $i ?></td>
-            <td>=</td>
-            <td><?= $num * $i ?></td>
-          </tr>
-        <?php } ?>
-      </tbody>
-    </table>
-    <?php
-  }
-
+  require './auxiliar.php';
   if (!isset($_GET['num'])) {
     mostrarError("falta el parametro <i>num</i>");
   } else {
