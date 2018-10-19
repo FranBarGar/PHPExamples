@@ -5,11 +5,14 @@
   <title>Tabla de multiplicar</title>
 </head>
 <body>
+  <form class="6" action="" method="get">
+    <label for="num">Numero: </label>
+    <input id="num" type="text" name="num">
+    <input type="submit" value="Send">
+  </form>
   <?php
   require './auxiliar.php';
-  if (!isset($_GET['num'])) {
-    mostrarError("falta el parametro <i>num</i>");
-  } else {
+  if (isset($_GET['num'])) {
     $num = $_GET['num'];
     if (!ctype_digit($num)) {
       mostrarError("se ha pasado algo que no es un numero");
