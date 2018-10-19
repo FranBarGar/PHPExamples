@@ -23,22 +23,19 @@ function operar($p1, $p2, $op)
     switch ($op) {
         case '+':
         $res = $p1+$p2;
-        echo "<p>{$p1} {$op} {$p2} = {$res}</p>";
         break;
         case '-':
         $res = $p1-$p2;
-        echo "<p>{$p1} {$op} {$p2} = {$res}</p>";
         break;
         case '*':
         $res = $p1*$p2;
-        echo "<p>{$p1} {$op} {$p2} = {$res}</p>";
         break;
         case '/':
         $res = $p1/$p2;
-        echo "<p>{$p1} {$op} {$p2} = {$res}</p>";
         break;
         default:
         echo "Error";
         break;
     }
+    echo "<p>{$p1} {$op} {$p2} = {$res}</p>";
 }

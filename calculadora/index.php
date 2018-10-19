@@ -21,7 +21,13 @@
     </form>
     <?php
     require './auxiliar.php';
-    operar($p1, $p2, $op);
+    if (!empty($p1)) {
+        if (!ctype_digit($p1)) {
+            mostrarError("se ha pasado algo que no es un numero");
+        } else {
+            operar($p1, $p2, $op);
+        }
+    }
     ?>
 </body>
 </html>
