@@ -23,17 +23,15 @@
             <option value="/" <?= $op=="/" ? 'selected' : '' ?>>/</option>
         </select>
         <input type="submit" value="Send">
-        <?= $p2 == "0" && $op == "/" ?>
     </form>
     <?php
     require './auxiliar.php';
-    if (!empty($p1) && !empty($p2)) {
+    if (isset($p1) && isset($p2)) {
         if (!ctype_digit($p1)) {
             mostrarError("en el primer operando se ha pasado algo que no es un numero");
         } elseif (!ctype_digit($p2)) {
             mostrarError("en el segundo operando se ha pasado algo que no es un numero");
-        // algo falla y no entra en el elseif este.
-        } elseif (($p2 == "0") && ($op == "/")) {
+        } elseif ($p2 == "0" && $op == "/") {
             mostrarError("no se puede dividir un numero entre 0");
         } else {
             operar($p1, $p2, $op);

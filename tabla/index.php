@@ -15,7 +15,7 @@
     </form>
     <?php
     require './auxiliar.php';
-    if (!empty($num)) {
+    if (isset($num)) {
         if (!ctype_digit($num)) {
             mostrarError("se ha pasado algo que no es un numero");
         } else {
