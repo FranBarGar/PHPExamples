@@ -16,14 +16,24 @@
         <label for="p2">Segundo operando: </label>
         <input id="p2" type="text" name="p2" value="<?= $p2 ?>"><br>
         <label for="op">Operacion: </label>
-        <input id="op" type="text" name="op" value="<?= $op ?>"><br>
+        <select name="op">
+            <option value="+" selected="<?= $op=="%2B" ?>">+</option>
+            <option value="-" selected="<?= $op=="-" ?>">-</option>
+            <option value="*" selected="<?= $op=="*" ?>">*</option>
+            <option value="/" selected="<?= $op=="%2F" ?>">/</option>
+        </select>
         <input type="submit" value="Send">
+        <?= $op=="%2B" ?>
     </form>
     <?php
     require './auxiliar.php';
-    if (!empty($p1)) {
+    if (!empty($p1) && !empty($p2)) {
         if (!ctype_digit($p1)) {
-            mostrarError("se ha pasado algo que no es un numero");
+            mostrarError("en el primer operando se ha pasado algo que no es un numero");
+        } elseif (!ctype_digit($p2)) {
+            mostrarError("en el segundo operando se ha pasado algo que no es un numero");
+        } elseif ($p2 == "0" && $op == "%2F") {
+            mostrarError("no se puede dividir un numero entre 0");
         } else {
             operar($p1, $p2, $op);
         }
