@@ -26,7 +26,7 @@
     </form>
     <?php
     require './auxiliar.php';
-    if (isset($p1) && isset($p2)) {
+    if (isset($p1) && isset($p2) && $p1!="" && $p2!="") {
         if (!ctype_digit($p1)) {
             mostrarError("en el primer operando se ha pasado algo que no es un numero");
         } elseif (!ctype_digit($p2)) {
