@@ -14,9 +14,16 @@ function mostrarError($err)
     echo "<h3>Error: $err</h3>";
 }
 
+function selected($op1, $op2)
+{
+    return $op1==$op2 ? 'selected' : '';
+}
+
 /**
-* Muestra la tabla de multiplicar.
-* @param  string|int $num El numero del cual sacar la tabla.
+* Muestra el resultado de la operacion.
+* @param  string $p1 Primer operador.
+* @param  string $p2 Segundo operador.
+* @param  string $op Operando.
 */
 function operar($p1, $p2, $op)
 {
@@ -34,8 +41,25 @@ function operar($p1, $p2, $op)
         $res = $p1/$p2;
         break;
         default:
-        echo "Error";
+        mostrarError("fallo de programacion");
         break;
     }
     echo "<p>{$p1} {$op} {$p2} = {$res}</p>";
 }
+
+function form($p1, $p2, $op)
+{ ?>
+    <form action="" method="get">
+        <label for="p1">Primer operando: </label>
+        <input id="p1" type="text" name="p1" value="<?= $p1 ?>"><br>
+        <label for="p2">Segundo operando: </label>
+        <input id="p2" type="text" name="p2" value="<?= $p2 ?>"><br>
+        <label for="op">Operacion: </label>
+        <select name="op">
+            <?php foreach (OP as $o) { ?>
+                <option value="<?= $o ?>" <?= selected($op, $o) ?>><?= $o ?></option>
+            <?php } ?>
+        </select>
+        <input type="submit" value="Send">
+    </form>
+<?php } ?>
