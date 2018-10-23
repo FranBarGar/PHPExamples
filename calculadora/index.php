@@ -9,24 +9,22 @@
     require './auxiliar.php';
     const OP = ["+", "-", "*", "/"];
     const VA = ["op"=>"+", "p1"=>"0", "p2"=>"0"];
-    $p1 = $p2 = $op = null;
+    extract(VA);
     $err = [];
 
     // Comprobacion de parametros
     if (empty($_GET)) {
-        extract(PAR);
+    } elseif (empty(array_diff_key(VA, $_GET)) && empty(array_diff_key($_GET, VA))) {
+        // foreach ($_GET as $k => &$v) {
+        //     $v = trim($v);
+        // }
+        $_GET = array_map("trim", $_GET);
+        extract($_GET);
+        // extract($_GET, EXTR_IF_EXISTS);
     } else {
-        $va = array_keys(VA);
-        sort($va);
-        $var = array_keys($_GET);
-        sort($var);
-        if ($var == $va) {
-            extract($_GET);
-            // extract($_GET, EXTR_IF_EXISTS);
-        } else {
-            $err[] = "Los parametros recibidos no son correctos.";
-        }
+        $err[] = "Los parametros recibidos no son correctos.";
     }
+
 
     if (empty($err)) {
         if (!is_numeric($p1)) {
