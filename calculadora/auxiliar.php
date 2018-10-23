@@ -25,7 +25,7 @@ function selected($op1, $op2)
 * @param  string $p2 Segundo operador.
 * @param  string $op Operando.
 */
-function operar($p1, $p2, $op)
+function opera($p1, $p2, $op)
 {
     switch ($op) {
         case '+':
@@ -44,22 +44,22 @@ function operar($p1, $p2, $op)
         mostrarError("fallo de programacion");
         break;
     }
-    echo "<p>{$p1} {$op} {$p2} = {$res}</p>";
+    return $res;
 }
 
 function form($p1, $p2, $op)
 { ?>
     <form action="" method="get">
-        <label for="p1">Primer operando: </label>
+        <label for="p1">Primer operando*: </label>
         <input id="p1" type="text" name="p1" value="<?= $p1 ?>"><br>
-        <label for="p2">Segundo operando: </label>
+        <label for="p2">Segundo operando*: </label>
         <input id="p2" type="text" name="p2" value="<?= $p2 ?>"><br>
-        <label for="op">Operacion: </label>
+        <label for="op">Operacion*: </label>
         <select name="op">
             <?php foreach (OP as $o) { ?>
                 <option value="<?= $o ?>" <?= selected($op, $o) ?>><?= $o ?></option>
             <?php } ?>
-        </select>
-        <input type="submit" value="Send">
+        </select><br>
+        <input type="submit" value="Calcular">
     </form>
 <?php } ?>
