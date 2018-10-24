@@ -9,46 +9,19 @@
     require './auxiliar.php';
     const OP = ["+", "-", "*", "/"];
     const VA = ["op"=>"+", "p1"=>"0", "p2"=>"0"];
-    extract(VA);
     $err = [];
+    $ar = paramTest(VA, $err);
 
-    // Comprobacion de parametros
-    if (empty($_GET)) {
-    } elseif (empty(array_diff_key(VA, $_GET)) && empty(array_diff_key($_GET, VA))) {
-        // foreach ($_GET as $k => &$v) {
-        //     $v = trim($v);
-        // }
-        $_GET = array_map("trim", $_GET);
-        extract($_GET);
-        // extract($_GET, EXTR_IF_EXISTS);
-    } else {
-        $err[] = "Los parametros recibidos no son correctos.";
-    }
+    extract($ar);
 
+    errTest($ar, OP, $err);
+
+    form($ar);
 
     if (empty($err)) {
-        if (!is_numeric($p1)) {
-            $err[] = "El primer operando no es un numero.";
-        }
-        if (!is_numeric($p2)) {
-            $err[] = "El segundo operando no es un numero.";
-        }
-        if (!in_array($op, OP)) {
-            $err[] = "El operador no es valido.";
-        }
-    }
-
-    form($p1, $p2, $op);
-
-    if (empty($err)) {
-        ?>
-        <h3>Resultado: <?= opera($p1, $p2, $op) ?></h3>
-        <?php
+        mostrarResultado($ar);
     } else {
-        foreach ($err as $me) { ?>
-            <h3>Error : <?= $me ?></h3>
-            <?php
-        }
+        muestraErrores($err);
     }
     ?>
 </body>
