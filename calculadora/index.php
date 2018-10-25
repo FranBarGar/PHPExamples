@@ -10,17 +10,14 @@
     const OP = ["+", "-", "*", "/"];
     const VA = ["op"=>"+", "p1"=>"0", "p2"=>"0"];
     $err = [];
-    $ar = paramTest(VA, $err);
 
-    extract($ar);
-
-    errTest($ar, OP, $err);
-
-    form($ar);
-
-    if (empty($err)) {
-        mostrarResultado($ar);
-    } else {
+    try {
+        $ar = compruebaParametros(VA, $err);
+        extract($ar);
+        compruebaValores($ar, OP, $err);
+        formulario($ar, OP);
+        muestraResultado($ar);
+    } catch (Exception $e) {
         muestraErrores($err);
     }
     ?>

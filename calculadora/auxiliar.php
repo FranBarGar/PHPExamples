@@ -37,7 +37,7 @@ function opera($ar)
     return $res;
 }
 
-function form($ar)
+function formulario($ar, $ops)
 { ?>
     <form action="" method="get">
         <label for="p1">Primer operando*: </label>
@@ -46,7 +46,7 @@ function form($ar)
         <input id="p2" type="text" name="p2" value="<?= $ar["p2"] ?>"><br>
         <label for="op">Operacion*: </label>
         <select name="op">
-            <?php foreach (OP as $o) { ?>
+            <?php foreach ($ops as $o) { ?>
                 <option value="<?= $o ?>" <?= selected($ar["op"], $o) ?>><?= $o ?></option>
             <?php } ?>
         </select><br>
@@ -54,7 +54,7 @@ function form($ar)
     </form>
 <?php }
 
-function paramTest($va, &$err) {
+function compruebaParametros($va, &$err) {
     // Comprobacion de parametros
     if (!empty($_GET)) {
         if (empty(array_diff_key($va, $_GET)) && empty(array_diff_key($_GET, $va))) {
@@ -66,7 +66,7 @@ function paramTest($va, &$err) {
     return $va;
 }
 
-function errTest($ar, $ops, &$err){
+function compruebaValores($ar, $ops, &$err){
     if (empty($err)) {
         if (!is_numeric($ar["p1"])) {
             $err[] = "El primer operando no es un numero.";
@@ -77,10 +77,12 @@ function errTest($ar, $ops, &$err){
         if (!in_array($ar["op"], $ops)) {
             $err[] = "El operador no es valido.";
         }
+    } else {
+        throw new Exception();
     }
 }
 
-function mostrarResultado($ar){
+function muestraResultado($ar){
     ?>
     <h3>Resultado: <?= opera($ar) ?></h3>
     <?php
