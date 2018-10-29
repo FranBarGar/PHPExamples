@@ -7,12 +7,11 @@
 <body>
     <?php
     $buscarTitulo = isset($_GET['buscarTitulo']) ? trim($_GET['buscarTitulo']) : '';
-
     $pdo = new PDO('pgsql:host=localhost;dbname=fa', 'fa', 'fa');
     $stPeliculas = $pdo->prepare('SELECT p.*, genero
                                     FROM peliculas p JOIN generos g ON p.genero_id = g.id
-                                   WHERE titulo ILIKE :titulo;');
-    $stPeliculas -> execute([':titulo'=>"%$buscarTitulo%"]);
+                                   WHERE position(lower(:titulo) in lower(titulo)) != 0;');
+    $stPeliculas -> execute([':titulo'=>$buscarTitulo]);
     ?>
 <div>
     <fieldset>
