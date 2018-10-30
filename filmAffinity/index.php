@@ -6,16 +6,24 @@
 </head>
 <body>
     <?php
-    $pdo = new PDO('pgsql:host=localhost;dbname=fa', 'fa', 'fa');
+    require 'auxiliar.php';
+    $pdo = conectar();
 
     if (isset($_POST['id'])) {
         $id = $_POST['id'];
-        $stBorrar = $pdo -> prepare('DELETE FROM peliculas WHERE id = :id');
-        $stBorrar -> execute([':id' => $id]); ?>
-        <h3>Pelicula borrada correctamente</h3>
-        <?php
+        $pdo -> beginTransaction();
+        $pdo -> exec('LOCK TABLE peliculas IN SHARE MODE');
+        if (!buscarPelicula($pdo, $id)) { ?>
+            <h3>La pelicula no existe.</h3>
+            <?php
+        } else {
+            $stBorrar = $pdo -> prepare('DELETE FROM peliculas WHERE id = :id');
+            $stBorrar -> execute([':id' => $id]); ?>
+            <h3>Pelicula borrada correctamente</h3>
+            <?php
+        }
+        $pdo -> commit();
     }
-
     $buscarTitulo = isset($_GET['buscarTitulo']) ? trim($_GET['buscarTitulo']) : '';
     $stPeliculas = $pdo->prepare('SELECT p.*, genero
         FROM peliculas p JOIN generos g ON p.genero_id = g.id
