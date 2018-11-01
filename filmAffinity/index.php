@@ -15,7 +15,9 @@
             <div class="row">
                 <?php
                 require 'auxiliar.php';
+
                 $pdo = conectar();
+
                 if (isset($_POST['id'])) {
                     $id = $_POST['id'];
                     $pdo->beginTransaction();
@@ -31,6 +33,7 @@
                     }
                     $pdo->commit();
                 }
+
                 $buscarTitulo = isset($_GET['buscarTitulo'])
                 ? trim($_GET['buscarTitulo'])
                 : '';
@@ -79,7 +82,7 @@
                                     <td><?= $fila['duracion'] ?></td>
                                     <td><?= $fila['genero'] ?></td>
                                     <td>
-                                        <a href="confirmBorrado.php?id=<?= $fila['id'] ?>"
+                                        <a href="confirm_borrado.php?id=<?= $fila['id'] ?>"
                                            class="btn btn-xs btn-danger">
                                             Borrar
                                         </a>
@@ -88,6 +91,11 @@
                             <?php endforeach ?>
                         </tbody>
                     </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="text-center">
+                    <a href="insertar.php" class="btn btn-info">Insertar una nueva película</a>
                 </div>
             </div>
         </div>
