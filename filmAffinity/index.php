@@ -15,9 +15,7 @@
             <div class="row">
                 <?php
                 require 'auxiliar.php';
-
                 $pdo = conectar();
-
                 if (isset($_POST['id'])) {
                     $id = $_POST['id'];
                     $pdo->beginTransaction();
@@ -33,7 +31,6 @@
                     }
                     $pdo->commit();
                 }
-
                 $buscarTitulo = isset($_GET['buscarTitulo'])
                 ? trim($_GET['buscarTitulo'])
                 : '';
