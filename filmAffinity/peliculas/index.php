@@ -1,3 +1,4 @@
+<?php session_start() ?>
 <!DOCTYPE html>
 <html lang="es" dir="ltr">
     <head>
@@ -11,11 +12,37 @@
         </style>
     </head>
     <body>
+        <nav class="navbar navbar-default navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">FilmAffinity</a>
+                </div>
+                <div class="navbar-text navbar-right">
+                    <?php if (isset($_SESSION['usuario'])): ?>
+                        <?= $_SESSION['usuario'] ?>
+                        <a href="logout.php" class="btn btn-success">Logout</a>
+                    <?php else: ?>
+                        <a href="login.php" class="btn btn-success">Login</a>
+                    <?php endif ?>
+                </div>
+            </div>
+        </nav>
         <div class="container">
+            <br>
+            <?php if (isset($_SESSION['mensaje'])): ?>
+                <div class="row">
+                    <div class="alert alert-success" role="alert">
+                        <?= $_SESSION['mensaje'] ?>
+                    </div>
+                </div>
+                <?php unset($_SESSION['mensaje']); ?>
+            <?php endif ?>
             <div class="row">
                 <?php
-                require 'auxiliar.php';
+                require '../comunes/auxiliar.php';
+
                 $pdo = conectar();
+
                 if (isset($_POST['id'])) {
                     $id = $_POST['id'];
                     $pdo->beginTransaction();
@@ -31,6 +58,7 @@
                     }
                     $pdo->commit();
                 }
+
                 $buscarTitulo = isset($_GET['buscarTitulo'])
                 ? trim($_GET['buscarTitulo'])
                 : '';
@@ -38,7 +66,8 @@
                                        FROM peliculas p
                                        JOIN generos g
                                          ON genero_id = g.id
-                                      WHERE position(lower(:titulo) in lower(titulo)) != 0');
+                                      WHERE position(lower(:titulo) in lower(titulo)) != 0
+                                   ORDER BY id');
                 $st->execute([':titulo' => $buscarTitulo]);
                 ?>
             </div>
@@ -73,15 +102,19 @@
                         <tbody>
                             <?php foreach ($st as $fila): ?>
                                 <tr>
-                                    <td><?= $fila['titulo'] ?></td>
-                                    <td><?= $fila['anyo'] ?></td>
-                                    <td><?= $fila['sinopsis'] ?></td>
-                                    <td><?= $fila['duracion'] ?></td>
-                                    <td><?= $fila['genero'] ?></td>
+                                    <td><?= h($fila['titulo']) ?></td>
+                                    <td><?= h($fila['anyo']) ?></td>
+                                    <td><?= h($fila['sinopsis']) ?></td>
+                                    <td><?= h($fila['duracion']) ?></td>
+                                    <td><?= h($fila['genero']) ?></td>
                                     <td>
                                         <a href="confirm_borrado.php?id=<?= $fila['id'] ?>"
                                            class="btn btn-xs btn-danger">
                                             Borrar
+                                        </a>
+                                        <a href="modificar.php?id=<?= $fila['id'] ?>"
+                                           class="btn btn-xs btn-info">
+                                            Modificar
                                         </a>
                                     </td>
                                 </tr>
@@ -95,6 +128,16 @@
                     <a href="insertar.php" class="btn btn-info">Insertar una nueva película</a>
                 </div>
             </div>
+            <?php if (!isset($_COOKIE['acepta'])): ?>
+                <nav class="navbar navbar-fixed-bottom navbar-inverse">
+                    <div class="container">
+                        <div class="navbar-text navbar-right">
+                            Tienes que aceptar las políticas de cookies.
+                            <a href="crear_cookie.php" class="btn btn-success">Aceptar cookies</a>
+                        </div>
+                    </div>
+                </nav>
+            <?php endif ?>
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
